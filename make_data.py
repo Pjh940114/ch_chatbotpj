@@ -42,14 +42,14 @@ def slot_txt(filename):
     f.close()
 
 # 슬롯이 없는 문장 불러오기
-slot_txt("slot_de.txt")
+slot_txt("./slot_txt/slot_de.txt")
 
 # 문장 틀 불러오기
 for i in range(cnt):
-    slot_txt("slot_1.txt")
-    slot_txt("slot_2.txt")
-    slot_txt("slot_3.txt")
-    slot_txt("slot_4.txt")
+    slot_txt("./slot_txt/slot_1.txt")
+    slot_txt("./slot_txt/slot_2.txt")
+    slot_txt("./slot_txt/slot_3.txt")
+    slot_txt("./slot_txt/slot_4.txt")
     # slot_txt("slot_merge.txt")
     
 # 중복 제거    
