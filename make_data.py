@@ -15,7 +15,7 @@ beer_taste = [
         '/taste;쓴/', '/taste;씁쓸한/','/taste;쌉쌀한/', '/taste;달콤씁쓸한/',
         '/taste;안쓴/', '/taste;안 쓴/', '/taste;쓰지 않은/',
         '/taste;신/', '/taste;상큼한/', '/taste;새콤달콤한/', '/taste;시지 않은/', '/taste;시지않은/',
-        '/taste;쓰지 않은/','/taste;안신/', '/taste;안 신/',
+        '/taste;쓰지않은/','/taste;안신/', '/taste;안 신/',
         '/taste;과일/', '/taste;고소한/', '/taste;구수한/']
 
 cnt = 80
