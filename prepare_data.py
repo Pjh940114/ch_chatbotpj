@@ -18,7 +18,7 @@ def process_file(file_path, output_dir):
   if not os.path.isdir(output_dir):
     os.mkdir(output_dir)
   
-  data = open(file_path).read().splitlines()
+  data = open(file_path, encoding='utf-8').read().splitlines()
 
   ## line별로 processing
   processed_data = [process_line(line, tokenizer) for line in data]
@@ -56,20 +56,20 @@ def process_line(sentence, tokenizer):
       slot_index += 1
 
     ## 엔티티를 토크나이즈 한 후, 토큰별로 태그를 추가해준다. 
-    entity_tokens = " ".join(tokenizer.tokenize(entity))
+      entity_tokens = " ".join(tokenizer.tokenize(entity))
 
-    tokens += entity_tokens + " "
-    tags += (slot + " ") * len(entity_tokens.split())
+      tokens += entity_tokens + " "
+      tags += (slot + " ") * len(entity_tokens.split())
 
-    ## 조사가 붙은 것이며(eg. "/슬롯/이", "/슬롯/에서"),
-    ## 조사에 대해서 추가적으로 토큰 및 태그를 추가해 준다.
-    if not word.endswith("/"):
-      ## 우선 "/" 뒤에 오는 조사를 찾아 준다.
-      josa = word[word.rfind("/")+1:]
-      josa_tokens = " ".join(tokenizer.tokenize(josa))
+      ## 조사가 붙은 것이며(eg. "/슬롯/이", "/슬롯/에서"),
+      ## 조사에 대해서 추가적으로 토큰 및 태그를 추가해 준다.
+      if not word.endswith("/"):
+        ## 우선 "/" 뒤에 오는 조사를 찾아 준다.
+       josa = word[word.rfind("/")+1:]
+       josa_tokens = " ".join(tokenizer.tokenize(josa))
 
-      tokens += josa_tokens + " "
-      tags += "O " * len(josa_tokens.split())
+       tokens += josa_tokens + " "
+       tags += "O " * len(josa_tokens.split())
     
     elif "/" in word:
       prefix = word.split("/")[0]
@@ -103,3 +103,5 @@ def process_line(sentence, tokenizer):
   ## ---------------------------------------- ##
   
   return tokens, tags
+
+# process_file("data.txt", "./output")
