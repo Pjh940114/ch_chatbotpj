@@ -104,4 +104,4 @@ def process_line(sentence, tokenizer):
   
   return tokens, tags
 
-# process_file("data.txt", "./output")
+process_file("data.txt", "./output")
