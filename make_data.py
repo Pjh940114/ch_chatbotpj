@@ -11,16 +11,14 @@ beer_abv = ['/abv;3도/', '/abv;4도/', '/abv;5도/', '/abv;6도/', '/abv;7도/'
             '/abv;4도 이하/', '/abv;5도 이하/', '/abv;6도 이하/', '/abv;7도 이하/', '/abv;8도 이하/']
 beer_flavor = ['/flavor;과일/', '/flavor;홉/', '/flavor;꽃/', '/flavor;상큼한/', '/flavor;커피/', '/flavor;스모키한/']  
      
-beer_taste = [
-        '/taste;단/', '/taste;달달한/', '/taste;달콤한/',
-        '/taste;안단/', '/taste;안 단/', '/taste;달지 않은/', '/taste;달지않은/',
-        '/taste;쓴/', '/taste;씁쓸한/','/taste;쌉쌀한/', '/taste;달콤씁쓸한/',
-        '/taste;안쓴/', '/taste;안 쓴/', '/taste;쓰지 않은/',
-        '/taste;신/', '/taste;상큼한/', '/taste;새콤달콤한/', '/taste;시지 않은/', '/taste;시지않은/',
-        '/taste;쓰지않은/','/taste;안신/', '/taste;안 신/',
-        '/taste;과일/', '/taste;고소한/', '/taste;구수한/']
 
-cnt = 55
+beer_taste = ['/taste;단/', '/taste;달달한/', '/taste;달콤한/', '/taste;안단/', '/taste;안 단/', 
+              '/taste;달지 않은/', '/taste;달지않은/', '/taste;쓴/', '/taste;씁쓸한/',
+              '/taste;쌉쌀한/', '/taste;달콤씁쓸한/', '/taste;안쓴/', '/taste;안 쓴/', '/taste;쓰지 않은/',
+              '/taste;신/', '/taste;상큼한/', '/taste;새콤달콤한/', '/taste;시지 않은/', '/taste;시지않은/',
+            '/taste;쓰지않은/','/taste;안신/', '/taste;안 신/', '/taste;과일/', '/taste;고소한/', '/taste;구수한/']
+
+cnt = 50
 slots = []
 append_text = slots.append        
 
@@ -43,32 +41,37 @@ def slots_txt(filename):
         if "{1}" or "{2}" or "{3}" or "{4}" in line:
             
             line = line.replace("{1}", rnd_types).strip()
-            
-            # 맥주 종류 받침   
-            # code = ord(rnd_types[-2])
-            # if 44032 <= code <= 55203 and (code - ord("가")) % 28 > 0:
-            #     pass
-
             line = line.replace("{2}", rnd_abv).strip()
-            
-            # 맥주 도수 받침
-            # if (ord(rnd_abv[-2]) - ord("가")) % 28 > 0:
-                # pass
-            
             line = line.replace("{3}", rnd_flavor).strip()
             line = line.replace("{4}", rnd_taste).strip()
+            
+            
+            #if (ord(rnd_types[-2])-ord('가')) % 28 == 4 or 8: # 4면 받침이 ㄴ, 8이면 ㄹ
+            if 44032 <= ord(rnd_types[-2]) <= 55203 and (ord(rnd_types[-2]) - ord("가")) % 28 > 0:   
+                line = line.replace(rnd_types+'면', rnd_types+'이면')
+                line = line.replace(rnd_types+'가', rnd_types+'이')
+                line = line.replace(rnd_types+'였으면', rnd_types+'이었으면')
+
+            
+            if (ord(rnd_flavor[-2])-ord('가')) % 28 != 4 :
+                for reg in ['거로', '거', '걸로', '게', '건데', '으로', '것', ' 거로', ' 거', ' 걸로', ' 게', ' 건데', ' 으로', ' 것']:
+                    line = line.replace(rnd_flavor+reg, rnd_flavor+'향 나는'+''+reg)
+             
+            for regex in ['으로', ' 으로']:
+                line = line.replace(rnd_flavor+regex, rnd_flavor+' 향으로')
+                
+            if (ord(rnd_flavor[-2])-ord('가')) % 28 == 4:
+                line = line.replace(rnd_flavor+'로', rnd_flavor+'으로')
+                
+            #if (ord())
             
             # 정규 표현식
             line = re.sub(re.compile(r'/type;흑맥주/\s*맥주+\s*'), '/type;흑맥주/', line)
             line = re.sub(re.compile(r'/type;바이젠/\s*로'), '/type;바이젠/으로', line)
-                      
-            line = re.sub(re.compile(r'/taste;과일/\s*(거|걸로|게|건데|으로|것)'), '/taste;과일/맛 나는 거', line)
-            line = re.sub(re.compile(r'/taste;과일/\s*(거|걸로|게|건데|으로|것)'), '/taste;과일/맛 나는 거', line)
             
-            line = re.sub(re.compile(r'/flavor;과일/\s*(거|걸로|게|건데|으로|것)'), '/flavor;과일/향 나는 거', line)
-            line = re.sub(re.compile(r'/flavor;홉/\s*(거|걸로|게|건데|으로|것)'), '/flavor;홉/향 나는 거', line)
-            line = re.sub(re.compile(r'/flavor;꽃/\s*(거|걸로|게|건데|으로|것)'), '/flavor;꽃/향 나는 거', line)
-            line = re.sub(re.compile(r'/flavor;커피/\s*(거|걸로|게|건데|으로|것)'), '/flavor;커피/향 나는 거', line)
+            line = re.sub(re.compile(r'도\s*이상/로'), '도 이상/으로', line)
+            
+            line = re.sub(re.compile(r'/taste;과일/\s*(거|걸로|게|건데|으로|것)'), '/taste;과일/맛 나는 거', line)
             
             slots.append(line)
                         
