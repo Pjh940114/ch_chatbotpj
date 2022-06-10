@@ -62,16 +62,14 @@ def slots_txt(filename):
                 
             if (ord(rnd_flavor[-2])-ord('가')) % 28 == 4:
                 line = line.replace(rnd_flavor+'로', rnd_flavor+'으로')
-                
-            #if (ord())
             
             # 정규 표현식
-            line = re.sub(re.compile(r'/type;흑맥주/\s*맥주+\s*'), '/type;흑맥주/', line)
-            line = re.sub(re.compile(r'/type;바이젠/\s*로'), '/type;바이젠/으로', line)
+            line = re.sub((r'/type;흑맥주/\s*맥주+\s*'), '/type;흑맥주/', line)
+            line = re.sub((r'/type;바이젠/\s*로'), '/type;바이젠/으로', line)
             
-            line = re.sub(re.compile(r'도\s*이상/로'), '도 이상/으로', line)
+            line = re.sub((r'도\s*이상/로'), '도 이상/으로', line)
             
-            line = re.sub(re.compile(r'/taste;과일/\s*(거|걸로|게|건데|으로|것)'), '/taste;과일/맛 나는 거', line)
+            line = re.sub((r'/taste;과일/\s*(거|걸로|게|건데|으로|것)'), '/taste;과일/맛 나는 거', line)
             
             slots.append(line)
                         
