@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+    # -*- coding: utf-8 -*-
 
 from utils import Reader
 from to_array.bert_to_array import BERTToArray
