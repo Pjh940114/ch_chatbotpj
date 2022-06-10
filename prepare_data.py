@@ -21,7 +21,7 @@ def process_file(file_path, output_dir):
   if not os.path.isdir(output_dir):
     os.mkdir(output_dir)
   
-  data = open(file_path, encoding='utf-8').read().splitlines()
+  data = open(file_path, encoding = 'utf-8').read().splitlines()
 
   ## line별로 processing
   processed_data = [process_line(line, tokenizer) for line in data] # (토근화된 문장, 슬롯 0 0 슬롯 0 0)
@@ -34,10 +34,10 @@ def process_file(file_path, output_dir):
   seq_in = os.path.join(output_dir, "seq.in")
   seq_out = os.path.join(output_dir, "seq.out")
 
-  with open(seq_in, "w") as f:
+  with open(seq_in, "w", encoding = 'utf-8') as f:
     f.write("\n".join(tokens)+ "\n")
 
-  with open(seq_out, "w") as f:
+  with open(seq_out, "w", encoding = 'utf-8') as f:
     f.write("\n".join(tags)+ "\n")
 
 def process_line(sentence, tokenizer):
@@ -108,8 +108,8 @@ def process_line(sentence, tokenizer):
   
   return tokens, tags
 
-# process_file("data.txt", "./output")
-print(process_line("/type;라거/에 /abv;3도 이상/이고 /flavor;과일/냄새인 /taste;시지 않은/ 거 있어?", tokenizer))
+process_file("data.txt", "./output")
+# print(process_line("/type;라거/에 /abv;3도 이상/이고 /flavor;과일/냄새인 /taste;시지 않은/ 거 있어?", tokenizer))
 
 '''
 인자값(argparse)을 쓰는 이유
@@ -120,22 +120,26 @@ print(process_line("/type;라거/에 /abv;3도 이상/이고 /flavor;과일/냄�
 - python test.py --input input_dir --output output_dir
 '''
 
-import argparse
+# import argparse
 
-# 인자값을 받을 수 있는 인스턴스 생성
-# 인자값 : 터미널에서 파이썬 실행할 때 쓰는 일종의 input ex) 경로
-parser = argparse.ArgumentParser(description='사용법 테스트입니다.')
+# # 인자값을 받을 수 있는 인스턴스 생성
+# # 인자값 : 터미널에서 파이썬 실행할 때 쓰는 일종의 input ex) 경로
+# parser = argparse.ArgumentParser(description='사용법 테스트입니다.')
 
-# 입력받을 인자값 등록
-# --target: 이름 / required = True/False : 필수 여부
-parser.add_argument('--target', '-t', required=True, help='어느 것을 요구하냐')
-parser.add_argument('--env', '-e', required=False, default='dev', help='실행환경은 뭐냐')
-# python test.py --target "안녕하세요" --env "반가워요"
-# python test.py -t "안녕하세요" -e "반가워요"
+# # 입력받을 인자값 등록
+# # --target: 이름 / required = True/False : 필수 여부
+# parser.add_argument('--target', required=True, help='어느 것을 요구하냐')
+# parser.add_argument('--env', required=False, default='dev', help='실행환경은 뭐냐')
+# # or
+# # parser.add_argument('-t', required=True, help='어느 것을 요구하냐')
+# # parser.add_argument('-e', required=False, default='dev', help='실행환경은 뭐냐')
 
-# 입력받은 인자값을 args에 저장 (type: namespace)
-args = parser.parse_args()
+# # python test.py --target "안녕하세요" --env "반가워요"
+# # python test.py -t "안녕하세요" -e "반가워요"
 
-# 입력받은 인자값 출력 (앞서 썼던 이름 --target, --env --> args.target / args.env 에 따라 사용)
-print(args.target)
-print(args.env)
+# # 입력받은 인자값을 args에 저장 (type: namespace)
+# args = parser.parse_args()
+
+# # 입력받은 인자값 출력 (앞서 썼던 이름 --target, --env --> args.target / args.env 에 따라 사용)
+# print(args.target)
+# print(args.env)

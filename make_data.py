@@ -18,7 +18,7 @@ beer_taste = ['/taste;단/', '/taste;달달한/', '/taste;달콤한/', '/taste;�
               '/taste;신/', '/taste;상큼한/', '/taste;새콤달콤한/', '/taste;시지 않은/', '/taste;시지않은/',
             '/taste;쓰지않은/','/taste;안신/', '/taste;안 신/', '/taste;과일/', '/taste;고소한/', '/taste;구수한/']
 
-cnt = 50
+cnt = 85
 slots = []
 append_text = slots.append        
 
