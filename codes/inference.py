@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 ############################### TODO ##########################################
-# 필요한 모듈 불러오기
+# from to_array.bert_to_array import BERTToArray
+from to_array.bert_to_array import *
+from models.bert_slot_model import BertSlotModel
 ###############################################################################
 
 import argparse
@@ -33,7 +35,7 @@ sess = tf.compat.v1.Session(config=config)
 
 if type_ == 'bert':
 ############################### TODO 경로 고치기 ##########################################
-    bert_model_hub_path = '/content/drive/MyDrive/bert-module'
+    bert_model_hub_path = '/content/drive/MyDrive/codes/bert-module'
 ###########################################################################################
     is_bert = True
 elif type_ == 'albert':
@@ -42,9 +44,21 @@ elif type_ == 'albert':
 else:
     raise ValueError('type must be one of these values: %s' % str(VALID_TYPES))
 
-
 ############################### TODO ##########################################
-# 모델과 벡터라이저 불러오기
+bert_vocab_path = os.path.join(bert_model_hub_path, '/content/drive/MyDrive/vocab.korean.rawtext.list')
+bert_to_array = BERTToArray(is_bert, bert_vocab_path)
+
+print('Loading Models...')
+if not os.path.exists(load_folder_path):
+  print(f'Folder {load_folder_path} not exist')
+
+tags_to_array_path = os.path.join(load_folder_path, 'tags_to_array.pkl')
+
+with open(tags_to_array_path, 'rb') as handle:
+  tags_to_array = pickle.load(handle)
+  slots_num = len(tags_to_array.label_encoder.classes_)
+  
+model = BertSlotModel.load(load_folder_path, sess)
 ###############################################################################
 
 
@@ -59,7 +73,16 @@ while True:
         break
 
 ############################### TODO ##########################################
-# 사용자가 입력한 한 문장을 슬롯태깅 모델에 넣어서 결과 뽑아내기
+    else :
+        text_arr = bert_to_array.tokenizer.tokenize(input_text)
+
+        input_ids, input_mask, segment_ids = bert_to_array.transform([' '.join(text_arr)])
+
+        inferred_tags, slot_score = model.predict_slots([input_ids, input_mask, segment_ids], tags_to_array)
+
+        print(text_arr)
+        print(inferred_tags[0])
+        print(slot_score[0])
 ###############################################################################
 
 tf.compat.v1.reset_default_graph()

@@ -37,7 +37,7 @@ sess = tf.Session(config=config)
 
 if type_ == 'bert':
 ############################################## TODO 경로 고치기 ###############################################
-    bert_model_hub_path = '/content/drive/MyDrive/bert-module'
+    bert_model_hub_path = "/content/drive/MyDrive/codes/bert-module"
 ###############################################################################################################
     is_bert = True
 elif type_ == 'albert':
