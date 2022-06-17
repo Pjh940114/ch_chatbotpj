@@ -8,7 +8,7 @@ from to_array import tokenizationK as tk
 class BERTToArray:
     
     def __init__(self, is_bert,
-                 bert_vocab_path="./bert-module/assets/vocab.korean.rawtext.list"):
+                 bert_vocab_path="/content/drive/MyDrive/codes/bert-module/assets/vocab.korean.rawtext.list"):
 
         print('initializing!')
         self.is_bert = is_bert
