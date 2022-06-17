@@ -6,9 +6,7 @@ from to_array.tokenizationK import FullTokenizer
 
 import pdb
 
-############################################## TODO 경로 고치기 ###############################################
 tokenizer = FullTokenizer(vocab_file="/content/drive/MyDrive/bert-module/assets/vocab.korean.rawtext.list")
-###############################################################################################################
 
 # "/인물;한지민/과 /인물;한예슬/ 나오는 드라마 있어?"와 같은 예시처럼
 # 해당 데이터에서는 "/슬롯(레이블)명;엔티티/"의 형식으로 슬롯과 엔티티를 정리해 놨으므로,

@@ -46,9 +46,7 @@ sess = tf.compat.v1.Session(config=config)
 
 if type_ == 'bert':
 
-############################### TODO 경로 고치기 ##########################################
     bert_model_hub_path = "/content/drive/MyDrive/codes/bert-module"
-###########################################################################################
     bert_vocab_path = os.path.join(bert_model_hub_path, '/content/drive/MyDrive/vocab.korean.rawtext.list')
     is_bert = True
 elif type_ == 'albert':

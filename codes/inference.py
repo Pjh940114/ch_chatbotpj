@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
-############################### TODO ##########################################
 # from to_array.bert_to_array import BERTToArray
 from to_array.bert_to_array import *
 from models.bert_slot_model import BertSlotModel
-###############################################################################
 
 import argparse
 import os
@@ -34,9 +32,7 @@ config = tf.ConfigProto(intra_op_parallelism_threads=1,
 sess = tf.compat.v1.Session(config=config)
 
 if type_ == 'bert':
-############################### TODO 경로 고치기 ##########################################
     bert_model_hub_path = '/content/drive/MyDrive/codes/bert-module'
-###########################################################################################
     is_bert = True
 elif type_ == 'albert':
     bert_model_hub_path = 'https://tfhub.dev/google/albert_base/1'
@@ -44,7 +40,6 @@ elif type_ == 'albert':
 else:
     raise ValueError('type must be one of these values: %s' % str(VALID_TYPES))
 
-############################### TODO ##########################################
 bert_vocab_path = os.path.join(bert_model_hub_path, '/content/drive/MyDrive/vocab.korean.rawtext.list')
 bert_to_array = BERTToArray(is_bert, bert_vocab_path)
 
@@ -59,8 +54,6 @@ with open(tags_to_array_path, 'rb') as handle:
   slots_num = len(tags_to_array.label_encoder.classes_)
   
 model = BertSlotModel.load(load_folder_path, sess)
-###############################################################################
-
 
 while True:
     print('\nEnter your sentence: ')
@@ -72,7 +65,6 @@ while True:
     if input_text == 'quit':
         break
 
-############################### TODO ##########################################
     else :
         text_arr = bert_to_array.tokenizer.tokenize(input_text)
 
@@ -83,7 +75,6 @@ while True:
         print(text_arr)
         print(inferred_tags[0])
         print(slot_score[0])
-###############################################################################
 
 tf.compat.v1.reset_default_graph()
 
