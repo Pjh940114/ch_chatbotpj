@@ -216,5 +216,6 @@ def chatbot_msg(msg_li):
         msg_li[i] = msg_li[i].strip()
     
     msg_li = list(set(msg_li))
+    message = f"너가 찾는 맥주 : {msg_li} <br />\n더 고려할 사항이 있니? (예 / 아니오)"
     message = "너가 찾는 맥주 : {} <br />\n더 고려할 사항이 있니? (예 / 아니오)".format(msg_li)
     return message
