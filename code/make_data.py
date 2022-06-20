@@ -2,7 +2,7 @@ import random
 import re
 
 # 슬롯 : 종류, 도수, 맛, 향 
-beer_types = ['/type;에일/', '/type;IPA/', '/type;라거/', '/type;바이젠/', '/type;흑맥주/']
+beer_types = ['/types;에일/', '/types;IPA/', '/types;라거/', '/types;바이젠/', '/types;흑맥주/']
 
 beer_abv = ['/abv;3도/', '/abv;4도/', '/abv;5도/', '/abv;6도/', '/abv;7도/', '/abv;8도/',
             '/abv;3도이상/', '/abv;4도이상/', '/abv;5도이상/', '/abv;6도이상/', '/abv;7도이상/',
@@ -64,8 +64,8 @@ def slots_txt(filename):
                 line = line.replace(rnd_flavor+'로', rnd_flavor+'으로')
             
             # 정규 표현식
-            line = re.sub((r'/type;흑맥주/\s*맥주+\s*'), '/type;흑맥주/', line)
-            line = re.sub((r'/type;바이젠/\s*로'), '/type;바이젠/으로', line)
+            line = re.sub((r'/types;흑맥주/\s*맥주+\s*'), '/types;흑맥주/', line)
+            line = re.sub((r'/types;바이젠/\s*로'), '/types;바이젠/으로', line)
             
             line = re.sub((r'도\s*이상/로'), '도 이상/으로', line)
             
