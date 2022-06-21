@@ -69,7 +69,3 @@ rcm_taste = list(set(rcm_taste_li))
 
 intersection = max((rcm_types + rcm_abv + rcm_flavor + rcm_taste), key= (rcm_types + rcm_abv + rcm_flavor + rcm_taste).count)
 print("최종 추천 맥주 :", intersection)
-
-###### 더 해야 할 것 #######
-# 예외처리
-# 최종추천에서 맥주가 없거나 너무 많은 경우
