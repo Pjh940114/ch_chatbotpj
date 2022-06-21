@@ -170,22 +170,16 @@ def get_bot_response():
     message = chatbot_msg(msg_li)    
             
     if userText.strip().startswith("예"):
-      # ask_msg = "뭐찾니?"
-      # return ask_msg
       message = "뭐찾니?"
     
     elif userText.strip().startswith("아니오"):
       # last_msg = "바로 맥주 추천해줄게"
       # return last_msg
       message = "바로 맥주 추천해줄게"
-    
-    # for msg in msg_li:
-    #   if msg in userText:
-    #     message = "이미 추천했잖니"
+      init_app(app)
             
   return message
 
-    
 def catch_slot(i, inferred_tags, text_arr, slot_text):
   if not inferred_tags[0][i] == "O":
     word_piece = re.sub("_", " ", text_arr[i])
