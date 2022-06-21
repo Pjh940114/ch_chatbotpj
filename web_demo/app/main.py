@@ -202,3 +202,4 @@ def chatbot_msg(msg_li):
     message = f"너가 찾는 맥주 : {msg_li} <br />\n더 고려할 사항이 있니? (예 / 아니오)"
     
     return message
+
