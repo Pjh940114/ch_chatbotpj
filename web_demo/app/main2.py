@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
-# 내코드 #
+#################### 병합중 ############################
 
 from flask import Flask, render_template, request
 from flask_ngrok import run_with_ngrok
 import tensorflow as tf
 import os, pickle, re, sys
 import pandas as pd
-import urllib
-from urllib.parse import quote_plus
-from urllib.parse import unquote_plus
 
 sys.path.append( '/content/drive/MyDrive/codes' )
 from models.bert_slot_model import BertSlotModel
@@ -87,10 +84,6 @@ rcm_abv_li = []
 rcm_flavor_li = []
 rcm_taste_li = []
 
-# li_flavors = beer.loc[:, "flavor"].tolist()
-# li_tastes = beer.loc[:, "taste"].tolist()
-# li_abvs = beer.loc[:, "abv"].tolist()
-
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 app.static_folder = 'static'
@@ -106,6 +99,7 @@ def home():
 
   return render_template("index.html")
 
+# 챗봇 마지막에 맥주 이미지 출력
 def showImg(name):
     return render_template('showImg.html', image_file=f'image/{name}.jpg', encoding='utf-8')
  
