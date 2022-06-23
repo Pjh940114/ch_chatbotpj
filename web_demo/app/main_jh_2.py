@@ -6,6 +6,7 @@ from flask_ngrok import run_with_ngrok
 import tensorflow as tf
 import os, pickle, re, sys
 import pandas as pd
+import random
 
 sys.path.append( '/content/drive/MyDrive/codes' )
 from models.bert_slot_model import BertSlotModel
@@ -223,8 +224,23 @@ def get_bot_response():
   print("rcm_taste :", rcm_taste)
 
   # 최종 추천 제품
-  intersection = max((rcm_types + rcm_abv + rcm_flavor + rcm_taste), key= (rcm_types + rcm_abv + rcm_flavor + rcm_taste).count)
-  print("intersection :", intersection)
+  rcm_merge = rcm_types + rcm_abv + rcm_flavor + rcm_taste # 위 리스트를 합친 리스트
+  
+  # 키값
+  rcm_merge_key = rcm_merge.count
+  intersection_beer = max(rcm_merge, key= rcm_merge_key) # 가장 많이 반복 되는 맥주
+
+  intersection_idx = rcm_merge.index(intersection_beer) # 가장 많이 반복 되는 맥주의 index
+
+  if intersection_idx == 0 and rcm_merge.count(intersection_beer) == 1:
+    rcm_idx = intersection_idx
+    rcm_idx += random.randrange(0, len(rcm_merge))
+    fin_rcm_beer = rcm_merge[rcm_idx]
+    
+  else:
+    fin_rcm_beer = intersection_beer
+
+  print("최종 추천 제품 :", fin_rcm_beer)
 
   if ('종류' in empty_slot and '도수' in empty_slot and '향' in empty_slot and '맛' in empty_slot):
     message = '맥주의 종류, 도수, 향, 맛을 넣어서 다시 입력해주세요'   
@@ -244,7 +260,7 @@ def get_bot_response():
       message = "뭐찾니?"
     
     elif userText.strip().startswith("아니오"):
-      message = f"널 위한 맥주는 : {intersection} <br />\n맛있게 먹으렴" + showImg(intersection)
+      message = f"널 위한 맥주는 : {fin_rcm_beer} <br />\n맛있게 먹으렴" + showImg(fin_rcm_beer)
       init_app(app)
 
   return message
