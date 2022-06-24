@@ -6,6 +6,13 @@ from flask_ngrok import run_with_ngrok
 import tensorflow as tf
 import os, pickle, re, sys
 import pandas as pd
+from PIL import Image
+from io import BytesIO
+import requests
+import numpy as np
+from PIL import Image
+import matplotlib.pyplot as plt
+import matplotlib.image as img
 
 sys.path.append( '/content/drive/MyDrive/codes' )
 from models.bert_slot_model import BertSlotModel
@@ -84,27 +91,25 @@ rcm_abv_li = []
 rcm_flavor_li = []
 rcm_taste_li = []
 
+# li_flavors = beer.loc[:, "flavor"].tolist()
+# li_tastes = beer.loc[:, "taste"].tolist()
+# li_abvs = beer.loc[:, "abv"].tolist()
+
 app = Flask(__name__)
-app.config['JSON_AS_ASCII'] = False
 app.static_folder = 'static'
+
 
 @app.route("/")
 def home():
+
 ############################### TODO ##########################################
 # 슬롯 사전 만들기
   app.slot_dict = {'types':[], 'abv':[], 'flavor':[], 'taste':[]}
   app.score_limit = 0.8
-  # intersection = None
+  intersection = None
 ###############################################################################
 
   return render_template("index.html")
-
-# 챗봇 마지막에 맥주 이미지 출력
-def showImg(name):
-    return render_template('showImg.html', image_file=f'image/{name}.jpg', encoding='utf-8')
- 
-if __name__ == "__main__":
-    app.run()
 
 @app.route("/get")
 def get_bot_response():
@@ -225,28 +230,40 @@ def get_bot_response():
   # 최종 추천 제품
   intersection = max((rcm_types + rcm_abv + rcm_flavor + rcm_taste), key= (rcm_types + rcm_abv + rcm_flavor + rcm_taste).count)
   print("intersection :", intersection)
+  # def most_frequent(data):
+  #   return max(data, key=data.count)
+  
+  # path = "http:///content/drive/MyDrive/web_demo/app/dailyBeer/{}.jpg".format(intersection)
+  path = "/content/drive/MyDrive/web_demo/app/dailyBeer/img.png"
 
+  # image_pil = Image.open(path)
+  # beer_img = np.array(image_pil)
+  beer_img = img.imread(path)
+  # plt.show()
+
+  uni_li = list(set([slot_text[k] for k in slot_text]))
+  print(uni_li)
   if ('종류' in empty_slot and '도수' in empty_slot and '향' in empty_slot and '맛' in empty_slot):
     message = '맥주의 종류, 도수, 향, 맛을 넣어서 다시 입력해주세요'   
   
   if ('종류' in filled_slot or '도수' in filled_slot or '향' in filled_slot or '맛' in filled_slot):
-    # tmp_li = []
-    msg_li = []
+    tmp_li = []
     for i in range(0, len(inferred_tags[0])):
         if not inferred_tags[0][i] == "O":
-            # tmp_li.append(slot_text[inferred_tags[0][i]])
-            msg_li.append(slot_text[inferred_tags[0][i]])
-            break
+            tmp_li.append(slot_text[inferred_tags[0][i]])
     
-    message = chatbot_msg(msg_li, slot_text)    
+    msg_li = list(set(tmp_li))
+    message = chatbot_msg(msg_li)    
             
     if userText.strip().startswith("예"):
       message = "뭐찾니?"
     
     elif userText.strip().startswith("아니오"):
-      message = f"널 위한 맥주는 : {intersection} <br />\n맛있게 먹으렴" + showImg(intersection)
+      message = f"널 위한 맥주는 : {intersection} <br />\n맛있게 먹으렴"
+      plt.imshow(beer_img)
+      plt.show()
       init_app(app)
-
+      
   return message
 
 def catch_slot(i, inferred_tags, text_arr, slot_text):
@@ -266,28 +283,17 @@ def init_app(app):
         }
 
 # 공백, 중복 제거 함수    
-def chatbot_msg(msg_li, slot_text):
-  for k in app.slot_dict:
-    if k == 'flavor':
-      for i in range(len(app.slot_dict[k])):
-        if slot_text[k] == app.slot_dict[k][i]:
-          app.slot_dict[k][i] += ' 향'
-        
-    elif k == 'taste':
-      for i in range(len(app.slot_dict[k])):
-        if slot_text[k] == app.slot_dict[k][i]:
-          app.slot_dict[k][i] += ' 맛'
-            
-    msg_li.extend(app.slot_dict[k])
-          
-  for i in range(len(msg_li)):
-    msg_li[i] = msg_li[i].strip()
-  
-  del msg_li[0]
-  msg_li = list(set(msg_li))
-  message = f"너가 찾는 맥주 : {msg_li} <br />\n더 고려할 사항이 있니? (예 / 아니오)"
-  
-  return message
+def chatbot_msg(msg_li):
+    for k in app.slot_dict:
+        msg_li.extend(app.slot_dict[k])
+                
+    for i in range(len(msg_li)):
+        msg_li[i] = msg_li[i].strip()
+    
+    msg_li = list(set(msg_li))
+    message = f"너가 찾는 맥주 : {msg_li} <br />\n더 고려할 사항이 있니? (예 / 아니오)"
+    
+    return message
 
 # 향, 맛을 dic 형태로 전환 ex) {"맥주 이름" : ["홉", "꽃"]}
 def make_set(li_slots):
