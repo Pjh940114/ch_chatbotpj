@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# 최종 코드
 from flask import Flask, render_template, request
 from flask_ngrok import run_with_ngrok
 import tensorflow as tf

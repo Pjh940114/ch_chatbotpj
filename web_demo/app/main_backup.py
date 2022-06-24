@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#################### 병합중 ############################
+#################### 병합중 #################
 
 from flask import Flask, render_template, request
 from flask_ngrok import run_with_ngrok
